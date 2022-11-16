@@ -100,13 +100,65 @@ bool Boardgame::dropToken(int column, int player)
 
 bool Boardgame::areFourConnected()
 {
-    // TODO: Implement this method
+    const bool horizontally = this->areFourConnectedHorizontally();
+    const bool vertically = this->areFourConnectedVertically();
+    const bool diagonally = false;
 
-    // Connected horizontally
+    return horizontally || vertically || diagonally;
+};
 
-    // Connected vertically
+bool Boardgame::areFourConnectedHorizontally() {
+    int lastState;
+    int counter;
 
-    // Connected diagonally
+    for (int i = 0; i < Boardgame::COLUMNS; i++) {
+        if (this->boardgame[this->lastRow][i] == Boardgame::EMPTY) {
+            counter = 0;
+            continue;
+        } else if (i == 0) {
+            lastState = this->boardgame[this->lastRow][i];
+            counter = 1;
+        } else {
+            if (this->boardgame[this->lastRow][i] == lastState) {
+                counter++;
+            } else {
+                lastState = this->boardgame[this->lastRow][i];
+                counter = 1;
+            }
+        }
+
+        if (counter == 4) {
+            return true;
+        }
+    }
 
     return false;
-};
+}
+
+bool Boardgame::areFourConnectedVertically() {
+    int lastState;
+    int counter;
+
+    for (int i = 0; i < Boardgame::ROWS; i++) {
+        if (this->boardgame[i][this->lastColumn] == Boardgame::EMPTY) {
+            counter = 0;
+            continue;
+        } else if (i == 0) {
+            lastState = this->boardgame[i][this->lastColumn];
+            counter = 1;
+        } else {
+            if (this->boardgame[i][this->lastColumn] == lastState) {
+                counter++;
+            } else {
+                lastState = this->boardgame[i][this->lastColumn];
+                counter = 1;
+            }
+        }
+
+        if (counter == 4) {
+            return true;
+        }
+    }
+
+    return false;
+}

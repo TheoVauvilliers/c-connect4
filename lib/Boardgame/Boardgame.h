@@ -28,6 +28,8 @@ class Boardgame
         void showBoardgame();
         bool dropToken(int column, int player);
         bool areFourConnected();
+        bool areFourConnectedHorizontally();
+        bool areFourConnectedVertically();
 };
 
 #endif

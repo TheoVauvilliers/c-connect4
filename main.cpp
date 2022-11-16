@@ -10,11 +10,21 @@ int main()
 
     cout << "Welcome to Connect Four!" << endl << endl;
 
-    cout << "Initial boardgame:" << endl;
-    boardgame.showBoardgame();
+    // for (int i = 0; i < 4; i++) {
+    //     boardgame.dropToken(i, 1);
+    //     boardgame.showBoardgame();
 
-    boardgame.dropToken(2, 1);
+    //     if (boardgame.areFourConnected()) {
+    //         cout << "It's win !" << endl;
+    //         break;
+    //     }
+    // }
+
+    boardgame.dropToken(0, 1);
     boardgame.showBoardgame();
+    if (boardgame.areFourConnected()) {
+        cout << "It's win !" << endl;
+    }
 
     return 1;
 };
