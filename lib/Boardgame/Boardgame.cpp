@@ -6,9 +6,9 @@ using namespace std;
 
 Boardgame::Boardgame()
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < Boardgame::ROWS; i++)
     {
-        for (int j = 0; j < 7; j++)
+        for (int j = 0; j < Boardgame::COLUMNS; j++)
         {
             this->boardgame[i][j] = 0;
         }
@@ -17,29 +17,25 @@ Boardgame::Boardgame()
 
 /**
  * @brief Boardgame::showBoardgame
- *  
- * 0 = empty
- * 1 = player 1 (red)
- * 2 = player 2 (yellow)
  */
 void Boardgame::showBoardgame()
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < Boardgame::ROWS; i++)
     {
-        for (int j = 0; j < 7; j++)
+        for (int j = 0; j < Boardgame::COLUMNS; j++)
         {
             char state;
 
             switch (this->boardgame[i][j])
             {
-                case 0:
+                case Boardgame::EMPTY:
                 default:
                     state = '-';
                     break;
-                case 1:
+                case Boardgame::PLAYER_1:
                     state = 'R';
                     break;
-                case 2:
+                case Boardgame::PLAYER_2:
                     state = 'Y';
                     break;
             }
@@ -52,7 +48,7 @@ void Boardgame::showBoardgame()
     cout << endl;
 };
 
-/*
+/**
  * @brief Boardgame::dropToken
  * 
  * @param int column
@@ -64,7 +60,7 @@ bool Boardgame::canDropToken(int column)
     return this->boardgame[0][column] == Boardgame::EMPTY;
 };
 
-/* 
+/**
  * @brief Boardgame::dropToken
  * 
  * @param int column
@@ -98,6 +94,11 @@ bool Boardgame::dropToken(int column, int player)
     return false;
 };
 
+/**
+ * @brief Boardgame::areFourConnected
+ * 
+ * @return bool - true if four tokens are connected, false otherwise
+ */
 bool Boardgame::areFourConnected()
 {
     const bool horizontally = this->areFourConnectedHorizontally();
@@ -107,6 +108,11 @@ bool Boardgame::areFourConnected()
     return horizontally || vertically || diagonally;
 };
 
+/**
+ * @brief Boardgame::areFourConnectedHorizontally
+ * 
+ * @return bool - true if four tokens are connected horizontally, false otherwise
+ */
 bool Boardgame::areFourConnectedHorizontally() {
     int lastState;
     int counter;
@@ -135,6 +141,11 @@ bool Boardgame::areFourConnectedHorizontally() {
     return false;
 }
 
+/**
+ * @brief Boardgame::areFourConnectedVertically
+ * 
+ * @return bool - true if four tokens are connected vertically, false otherwise
+ */
 bool Boardgame::areFourConnectedVertically() {
     int lastState;
     int counter;

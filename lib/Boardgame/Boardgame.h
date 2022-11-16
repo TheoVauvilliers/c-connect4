@@ -4,6 +4,10 @@
 
 /**
  * @brief The Boardgame class
+ * 
+ * The game ends when a player aligns 4 tokens in a row.
+ * The player 1 has red token.
+ * The player 2 has yellow token.
  */
 class Boardgame
 {
