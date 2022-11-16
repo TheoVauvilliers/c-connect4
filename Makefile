@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -Wall
 LDFLAGS =
-OBJFILES = lib/Users/Users.o lib/Uuid/Uuid.o main.o
+OBJFILES = lib/Boardgame/Boardgame.o main.o
 TARGET = main
 
 all: $(TARGET)
