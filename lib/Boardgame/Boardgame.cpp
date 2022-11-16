@@ -48,4 +48,37 @@ void Boardgame::showBoardgame()
         }
         cout << endl;
     }
+
+    cout << endl;
+};
+
+bool Boardgame::canDropPiece(int column)
+{
+    return this->boardgame[0][column] == Boardgame::EMPTY;
+};
+
+bool Boardgame::dropPiece(int column, int player)
+{
+    if (!this->canDropPiece(column))
+    {
+        cout << "Piece not dropped!" << endl;
+        return false;
+    }
+
+    for (int currentRow = Boardgame::ROWS - 1; currentRow >= 0; currentRow--)
+    {
+        if (this->boardgame[currentRow][column] == Boardgame::EMPTY)
+        {
+            this->lastPlayer = player;
+            this->lastColumn = column;
+            this->lastRow = currentRow;
+
+            this->boardgame[currentRow][column] = player;
+            cout << "Piece dropped at row " << currentRow << " and column " << column << endl;
+            return true;
+        }
+    }
+
+    cout << "DEBUG: We should never get here!" << endl << __FILE__ << " : " << __LINE__ << endl;
+    return false;
 };

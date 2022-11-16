@@ -6,11 +6,17 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello World!" << endl;
-
     Boardgame boardgame;
 
+    cout << "Welcome to Connect Four!" << endl;
+
+    cout << "Initial boardgame:" << endl;
     boardgame.showBoardgame();
+    
+    boardgame.dropPiece(2, 1);
+    boardgame.showBoardgame();
+
+    
 
     return 1;
 };
