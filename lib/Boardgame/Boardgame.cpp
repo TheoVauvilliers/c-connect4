@@ -82,3 +82,16 @@ bool Boardgame::dropPiece(int column, int player)
     cout << "DEBUG: We should never get here!" << endl << __FILE__ << " : " << __LINE__ << endl;
     return false;
 };
+
+bool Boardgame::areFourConnected()
+{
+    // TODO: Implementare
+
+    // Connected horizontally
+
+    // Connected vertically
+
+    // Connected diagonally
+
+    return false;
+};

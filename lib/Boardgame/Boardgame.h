@@ -31,6 +31,7 @@ class Boardgame
         Boardgame();
         void showBoardgame();
         bool dropPiece(int column, int player);
+        bool areFourConnected();
 };
 
 #endif
