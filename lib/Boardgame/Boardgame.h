@@ -27,13 +27,17 @@ class Boardgame
         bool gameOver = false;
         /* PROTECTED METHOD */
         bool canDropToken(int column);
+        bool areFourConnectedHorizontally();
+        bool areFourConnectedVertically();
+        bool areFourConnectedDiagonnaly();
+        bool areFourConnectedDiagonallyTopLeft();
+        bool areFourConnectedDiagonallyTopRight();
     public:
         Boardgame();
+        // TODO: Create destructor method
         void showBoardgame();
         bool dropToken(int column, int player);
         bool areFourConnected();
-        bool areFourConnectedHorizontally();
-        bool areFourConnectedVertically();
 };
 
 #endif

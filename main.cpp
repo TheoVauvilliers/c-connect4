@@ -6,19 +6,21 @@ using namespace std;
 
 int main()
 {
+    cout << "Welcome to Connect Four!" << endl << endl;
     Boardgame boardgame;
 
-    cout << "Welcome to Connect Four!" << endl << endl;
+    // TODO: Create user interaction
+    boardgame.dropToken(0, 1);
+    boardgame.showBoardgame();
+    if (boardgame.areFourConnected()) {
+        cout << "It's win !" << endl;
+    }
 
-    // for (int i = 0; i < 4; i++) {
-    //     boardgame.dropToken(i, 1);
-    //     boardgame.showBoardgame();
-
-    //     if (boardgame.areFourConnected()) {
-    //         cout << "It's win !" << endl;
-    //         break;
-    //     }
-    // }
+    boardgame.dropToken(0, 1);
+    boardgame.showBoardgame();
+    if (boardgame.areFourConnected()) {
+        cout << "It's win !" << endl;
+    }
 
     boardgame.dropToken(0, 1);
     boardgame.showBoardgame();
