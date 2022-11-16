@@ -52,16 +52,31 @@ void Boardgame::showBoardgame()
     cout << endl;
 };
 
-bool Boardgame::canDropPiece(int column)
+/*
+ * @brief Boardgame::dropToken
+ * 
+ * @param int column
+ * 
+ * @return bool - true if the disk can be token, false otherwise
+ */
+bool Boardgame::canDropToken(int column)
 {
     return this->boardgame[0][column] == Boardgame::EMPTY;
 };
 
-bool Boardgame::dropPiece(int column, int player)
+/* 
+ * @brief Boardgame::dropToken
+ * 
+ * @param int column
+ * @param int player
+ * 
+ * @return bool - true if the token has been dropped, false otherwise
+ */
+bool Boardgame::dropToken(int column, int player)
 {
-    if (!this->canDropPiece(column))
+    if (!this->canDropToken(column))
     {
-        cout << "Piece not dropped!" << endl;
+        cout << "Token not dropped!" << endl;
         return false;
     }
 
@@ -74,7 +89,7 @@ bool Boardgame::dropPiece(int column, int player)
             this->lastRow = currentRow;
 
             this->boardgame[currentRow][column] = player;
-            cout << "Piece dropped at row " << currentRow << " and column " << column << endl;
+            cout << "Token dropped at row " << currentRow << " and column " << column << endl;
             return true;
         }
     }
@@ -85,7 +100,7 @@ bool Boardgame::dropPiece(int column, int player)
 
 bool Boardgame::areFourConnected()
 {
-    // TODO: Implementare
+    // TODO: Implement this method
 
     // Connected horizontally
 

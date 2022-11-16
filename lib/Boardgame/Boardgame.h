@@ -4,10 +4,6 @@
 
 /**
  * @brief The Boardgame class
- * 
- * 0 = empty
- * 1 = player 1 (red)
- * 2 = player 2 (yellow)
  */
 class Boardgame
 {
@@ -15,7 +11,7 @@ class Boardgame
         /* BOARDGAME INFO */
         const static int ROWS = 6;
         const static int COLUMNS = 7;
-        /* PIECES INFO */
+        /* TOKENS INFO */
         const static int EMPTY = 0;
         const static int PLAYER_1 = 1;
         const static int PLAYER_2 = 2;
@@ -26,11 +22,11 @@ class Boardgame
         int lastRow;
         bool gameOver = false;
         /* PROTECTED METHOD */
-        bool canDropPiece(int column);
+        bool canDropToken(int column);
     public:
         Boardgame();
         void showBoardgame();
-        bool dropPiece(int column, int player);
+        bool dropToken(int column, int player);
         bool areFourConnected();
 };
 
