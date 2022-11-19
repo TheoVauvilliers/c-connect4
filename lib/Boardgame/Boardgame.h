@@ -2,6 +2,10 @@
 #ifndef BOARDGAME_H
 #define BOARDGAME_H
 
+#include <vector>
+
+using namespace std;
+
 /**
  * @brief The Boardgame class
  * 
@@ -20,16 +24,19 @@ class Boardgame
         const static int PLAYER_1 = 1;
         const static int PLAYER_2 = 2;
         /* VARIABLE DECLARATION */
-        int boardgame[Boardgame::ROWS][Boardgame::COLUMNS];
+        // vector<int> boardgame[Boardgame::ROWS][Boardgame::COLUMNS];
+        vector<vector<int>> boardgame;
         int lastPlayer;
         int lastColumn;
         int lastRow;
         bool gameOver = false;
         /* PROTECTED METHOD */
+        char humanToken(int value);
         bool canDropToken(int column);
         bool areFourConnectedHorizontally();
         bool areFourConnectedVertically();
         bool areFourConnectedDiagonnaly();
+        bool inArray(vector<int> needle, vector<vector<int>> haystack);
         bool areFourConnectedDiagonallyTopLeft();
         bool areFourConnectedDiagonallyTopRight();
     public:

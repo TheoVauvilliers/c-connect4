@@ -1,16 +1,21 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 #include "Boardgame.h"
-#include "../Helper/function.h"
 
 using namespace std;
 
 Boardgame::Boardgame()
 {
     for (int i = 0; i < Boardgame::ROWS; i++) {
+        vector<int> column;
+
         for (int j = 0; j < Boardgame::COLUMNS; j++) {
-            this->boardgame[i][j] = 0;
+            column.push_back(0);
         }
+
+        this->boardgame.push_back(column);
     }
 };
 
@@ -19,28 +24,40 @@ Boardgame::Boardgame()
  */
 void Boardgame::showBoardgame()
 {
-    for (int i = 0; i < Boardgame::ROWS; i++) {
-        for (int j = 0; j < Boardgame::COLUMNS; j++) {
-            char state;
-
-            switch (this->boardgame[i][j]) {
-                case Boardgame::EMPTY:
-                default:
-                    state = '-';
-                    break;
-                case Boardgame::PLAYER_1:
-                    state = 'R';
-                    break;
-                case Boardgame::PLAYER_2:
-                    state = 'Y';
-                    break;
-            }
-            cout << state << " ";
+    for (int i = 0; i < this->boardgame.size(); i++) {
+        for (int j = 0; j < this->boardgame[i].size(); j++) {
+            cout << this->humanToken(this->boardgame[i][j]) << " ";
         }
         cout << endl;
     }
     cout << endl;
 };
+
+/**
+ * @brief Boardgame::humanToken
+ * 
+ * @param int token value
+ * 
+ * @return char - transform int to char for UI
+ */
+char Boardgame::humanToken(int value) {
+    char token;
+
+    switch (value) {
+        case Boardgame::EMPTY:
+        default:
+            token = '-';
+            break;
+        case Boardgame::PLAYER_1:
+            token = 'R';
+            break;
+        case Boardgame::PLAYER_2:
+            token = 'Y';
+            break;
+    }
+
+    return token;
+}
 
 /**
  * @brief Boardgame::dropToken
@@ -163,12 +180,27 @@ bool Boardgame::areFourConnectedDiagonnaly() {
     return this->areFourConnectedDiagonallyTopLeft() || this->areFourConnectedDiagonallyTopRight();
 }
 
+bool Boardgame::inArray(vector<int> needle, vector<vector<int>> haystack) {
+    return find(begin(haystack), end(haystack), needle) != end(haystack);
+}
+
 /**
  * @brief Boardgame::areFourConnectedDiagonallyTopLeft
  * 
  * @return bool - true if four tokens are connected diagonally, false otherwise
  */
 bool Boardgame::areFourConnectedDiagonallyTopLeft() {
+    const vector<vector<int>> EXCLUDED_POSITION = {
+        {0, 5}, {0, 4}, {0, 3},
+        {1, 5}, {1, 4}, {2, 5},
+        {4, 0}, {5, 0}, {5, 1},
+        {6, 0}, {6, 1}, {6, 2},
+    };
+
+    const bool IS_EXCLUDED = this->inArray(vector<int> {this->lastRow, this->lastColumn}, EXCLUDED_POSITION);
+
+    cout << "Is in this IS_EXCLUDED position : " << IS_EXCLUDED << endl;
+
     return false;
 }
 

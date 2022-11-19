@@ -10,19 +10,9 @@ int main()
     Boardgame boardgame;
 
     // TODO: Create user interaction
-    boardgame.dropToken(0, 1);
     boardgame.showBoardgame();
-    if (boardgame.areFourConnected()) {
-        cout << "It's win !" << endl;
-    }
 
-    boardgame.dropToken(0, 1);
-    boardgame.showBoardgame();
-    if (boardgame.areFourConnected()) {
-        cout << "It's win !" << endl;
-    }
-
-    boardgame.dropToken(0, 1);
+    boardgame.dropToken(3, 1);
     boardgame.showBoardgame();
     if (boardgame.areFourConnected()) {
         cout << "It's win !" << endl;
