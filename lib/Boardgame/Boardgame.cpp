@@ -190,16 +190,39 @@ bool Boardgame::inArray(vector<int> needle, vector<vector<int>> haystack) {
  * @return bool - true if four tokens are connected diagonally, false otherwise
  */
 bool Boardgame::areFourConnectedDiagonallyTopLeft() {
-    const vector<vector<int>> EXCLUDED_POSITION = {
-        {0, 5}, {0, 4}, {0, 3},
-        {1, 5}, {1, 4}, {2, 5},
-        {4, 0}, {5, 0}, {5, 1},
-        {6, 0}, {6, 1}, {6, 2},
-    };
+    const vector<vector<int>> EXCLUDED_POSITION = {{0, 5}, {0, 4}, {0, 3}, {1, 5}, {1, 4}, {2, 5}, {4, 0}, {5, 0}, {5, 1}, {6, 0}, {6, 1}, {6, 2}};
 
-    const bool IS_EXCLUDED = this->inArray(vector<int> {this->lastRow, this->lastColumn}, EXCLUDED_POSITION);
+    if (!this->inArray(vector<int> {this->lastColumn, this->lastRow}, EXCLUDED_POSITION)) {
+        int diff;
 
-    cout << "Is in this IS_EXCLUDED position : " << IS_EXCLUDED << endl;
+        if (this->lastColumn > this->lastRow) {
+            diff = this->lastRow;
+        } else {
+            diff = this->lastColumn;
+        }
+
+        int x = this->lastColumn - diff;
+        int y = this->lastRow - diff;
+        int lastState = Boardgame::EMPTY;
+        int counter = 0;
+
+        while ((x < Boardgame::COLUMNS) && (y < Boardgame::ROWS)) {
+            if (this->boardgame[y][x] == Boardgame::EMPTY) {
+                counter = 0;
+            } else {
+                if (this->boardgame[y][x] == lastState) {
+                    counter++;
+                    if (counter == 4) return true;
+                } else {
+                    lastState = this->boardgame[y][x];
+                    counter = 1;
+                }
+            }
+
+            x++;
+            y++;
+        }
+    }
 
     return false;
 }
@@ -210,5 +233,39 @@ bool Boardgame::areFourConnectedDiagonallyTopLeft() {
  * @return bool - true if four tokens are connected diagonally, false otherwise
  */
 bool Boardgame::areFourConnectedDiagonallyTopRight() {
+    const vector<vector<int>> EXCLUDED_POSITION = {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {2, 0}, {4, 5}, {5, 4}, {5, 5}, {6, 5}, {6, 4}, {6, 3}};
+
+    if (!this->inArray(vector<int> {this->lastColumn, this->lastRow}, EXCLUDED_POSITION)) {
+        int diff;
+
+        if (this->lastColumn > (Boardgame::ROWS - 1) - this->lastRow) {
+            diff = (Boardgame::ROWS - 1) - this->lastRow;
+        } else {
+            diff = this->lastColumn;
+        }
+
+        int x = this->lastColumn - diff;
+        int y = this->lastRow + diff;
+        int lastState = Boardgame::EMPTY;
+        int counter = 0;
+
+        while ((x < Boardgame::COLUMNS) && (y >= 0)) {
+            if (this->boardgame[y][x] == Boardgame::EMPTY) {
+                counter = 0;
+            } else {
+                if (this->boardgame[y][x] == lastState) {
+                    counter++;
+                    if (counter == 4) return true;
+                } else {
+                    lastState = this->boardgame[y][x];
+                    counter = 1;
+                }
+            }
+
+            x++;
+            y--;
+        }
+    }
+
     return false;
 }
