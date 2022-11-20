@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <string>
 
 #include "Boardgame.h"
 
@@ -14,7 +15,6 @@ Boardgame::Boardgame()
         for (int j = 0; j < Boardgame::COLUMNS; j++) {
             column.push_back(0);
         }
-
         this->boardgame.push_back(column);
     }
 };
@@ -108,164 +108,84 @@ bool Boardgame::dropToken(int column, int player)
  */
 bool Boardgame::areFourConnected()
 {
-    const bool HORIZONTALLY = this->areFourConnectedHorizontally();
-    const bool VERTICALLY = this->areFourConnectedVertically();
-    const bool DIAGONALLY = this->areFourConnectedDiagonnaly();
+    const bool HORIZONTALLY = this->areFourConnectedLoop(0, this->lastRow, "horizontally");
+    const bool VERTICALLY = this->areFourConnectedLoop(this->lastColumn, Boardgame::ROWS - 1, "vertically");
+    const bool DIAGONALLY = this->areFourConnectedDiagonally("topLeft") || this->areFourConnectedDiagonally("bottomLeft");
 
     return HORIZONTALLY || VERTICALLY || DIAGONALLY;
 };
 
 /**
- * @brief Boardgame::areFourConnectedHorizontally
+ * @brief Boardgame::areFourConnectedDiagonally
  * 
- * @return bool - true if four tokens are connected horizontally, false otherwise
- */
-bool Boardgame::areFourConnectedHorizontally() {
-    int lastState, counter;
-
-    for (int i = 0; i < Boardgame::COLUMNS; i++) {
-        if (this->boardgame[this->lastRow][i] == Boardgame::EMPTY) {
-            counter = 0;
-        } else if (i == 0) {
-            lastState = this->boardgame[this->lastRow][i];
-            counter = 1;
-        } else {
-            if (this->boardgame[this->lastRow][i] == lastState) {
-                counter++;
-                if (counter == 4) return true;
-            } else {
-                lastState = this->boardgame[this->lastRow][i];
-                counter = 1;
-            }
-        }
-    }
-
-    return false;
-}
-
-/**
- * @brief Boardgame::areFourConnectedVertically
- * 
- * @return bool - true if four tokens are connected vertically, false otherwise
- */
-bool Boardgame::areFourConnectedVertically() {
-    int lastState, counter;
-
-    for (int i = 0; i < Boardgame::ROWS; i++) {
-        if (this->boardgame[i][this->lastColumn] == Boardgame::EMPTY) {
-            counter = 0;
-        } else if (i == 0) {
-            lastState = this->boardgame[i][this->lastColumn];
-            counter = 1;
-        } else {
-            if (this->boardgame[i][this->lastColumn] == lastState) {
-                counter++;
-                if (counter == 4) return true;
-            } else {
-                lastState = this->boardgame[i][this->lastColumn];
-                counter = 1;
-            }
-        }
-    }
-
-    return false;
-}
-
-/**
- * @brief Boardgame::areFourConnectedDiagonnaly
+ * @param string direction - direction to verify that tokens are connected
  * 
  * @return bool - true if four tokens are connected diagonally, false otherwise
  */
-bool Boardgame::areFourConnectedDiagonnaly() {
-    return this->areFourConnectedDiagonallyTopLeft() || this->areFourConnectedDiagonallyTopRight();
+bool Boardgame::areFourConnectedDiagonally(string direction) {
+    vector<vector<int>> excludedPosition;
+
+    if (direction == "topLeft") excludedPosition = {{0, 5}, {0, 4}, {0, 3}, {1, 5}, {1, 4}, {2, 5}, {4, 0}, {5, 0}, {5, 1}, {6, 0}, {6, 1}, {6, 2}};
+    else excludedPosition = {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {2, 0}, {4, 5}, {5, 4}, {5, 5}, {6, 5}, {6, 4}, {6, 3}};
+
+    if (!this->inArray(vector<int> {this->lastColumn, this->lastRow}, excludedPosition)) {
+        int diff, x, y;
+
+        if (direction == "topLeft") {
+            diff = (this->lastColumn > this->lastRow) ? diff = this->lastRow : diff = this->lastColumn;
+            y = this->lastRow - diff;
+        } else {
+            diff = (this->lastColumn > (Boardgame::ROWS - 1) - this->lastRow) ? diff = (Boardgame::ROWS - 1) - this->lastRow : diff = this->lastColumn;
+            y = this->lastRow + diff;
+        }
+
+        return this->areFourConnectedLoop(this->lastColumn - diff, y, direction);
+    }
+
+    return false;
 }
 
+/**
+ * @brief Boardgame::areFourConnectedLoop
+ * 
+ * @param int x - initial position for x
+ * @param int y - initial position for y
+ * @param string direction - direction to verify that tokens are connected
+ * 
+ * @return bool - true if four tokens are connected, false otherwise
+ */
+bool Boardgame::areFourConnectedLoop(int x, int y, string direction) {
+    char lastState = Boardgame::EMPTY;
+    int counter = 0;
+
+    while ((direction == "horizontally"  && (x < Boardgame::COLUMNS)) ||
+           (direction == "vertically" && (y >= 0)) ||
+           (direction == "topLeft"  && ((x < Boardgame::COLUMNS) && (y < Boardgame::ROWS))) ||
+           (direction == "bottomLeft" && ((x < Boardgame::COLUMNS) && (y >= 0)))) {
+        if (this->boardgame[y][x] == lastState && lastState != Boardgame::EMPTY) {
+            counter++;
+            if (counter == 4) return true;
+        } else {
+            lastState = this->boardgame[y][x];
+            counter = 1;
+        }
+
+        if (direction == "horizontally" || direction == "topLeft" || direction == "bottomLeft") x++;
+        if (direction == "vertically" || direction == "bottomLeft") y--;
+        if (direction == "topLeft") y++;
+    }
+
+    return false;
+}
+
+/**
+ * @brief Boardgame::inArray
+ * 
+ * @param vector<int> needle
+ * @param vector<vector<int>> haystack
+ * 
+ * @return bool - true if the needle is found at least once in the haystack, false otherwise
+ */
 bool Boardgame::inArray(vector<int> needle, vector<vector<int>> haystack) {
     return find(begin(haystack), end(haystack), needle) != end(haystack);
-}
-
-/**
- * @brief Boardgame::areFourConnectedDiagonallyTopLeft
- * 
- * @return bool - true if four tokens are connected diagonally, false otherwise
- */
-bool Boardgame::areFourConnectedDiagonallyTopLeft() {
-    const vector<vector<int>> EXCLUDED_POSITION = {{0, 5}, {0, 4}, {0, 3}, {1, 5}, {1, 4}, {2, 5}, {4, 0}, {5, 0}, {5, 1}, {6, 0}, {6, 1}, {6, 2}};
-
-    if (!this->inArray(vector<int> {this->lastColumn, this->lastRow}, EXCLUDED_POSITION)) {
-        int diff;
-
-        if (this->lastColumn > this->lastRow) {
-            diff = this->lastRow;
-        } else {
-            diff = this->lastColumn;
-        }
-
-        int x = this->lastColumn - diff;
-        int y = this->lastRow - diff;
-        int lastState = Boardgame::EMPTY;
-        int counter = 0;
-
-        while ((x < Boardgame::COLUMNS) && (y < Boardgame::ROWS)) {
-            if (this->boardgame[y][x] == Boardgame::EMPTY) {
-                counter = 0;
-            } else {
-                if (this->boardgame[y][x] == lastState) {
-                    counter++;
-                    if (counter == 4) return true;
-                } else {
-                    lastState = this->boardgame[y][x];
-                    counter = 1;
-                }
-            }
-
-            x++;
-            y++;
-        }
-    }
-
-    return false;
-}
-
-/**
- * @brief Boardgame::areFourConnectedDiagonallyTopRight
- * 
- * @return bool - true if four tokens are connected diagonally, false otherwise
- */
-bool Boardgame::areFourConnectedDiagonallyTopRight() {
-    const vector<vector<int>> EXCLUDED_POSITION = {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {2, 0}, {4, 5}, {5, 4}, {5, 5}, {6, 5}, {6, 4}, {6, 3}};
-
-    if (!this->inArray(vector<int> {this->lastColumn, this->lastRow}, EXCLUDED_POSITION)) {
-        int diff;
-
-        if (this->lastColumn > (Boardgame::ROWS - 1) - this->lastRow) {
-            diff = (Boardgame::ROWS - 1) - this->lastRow;
-        } else {
-            diff = this->lastColumn;
-        }
-
-        int x = this->lastColumn - diff;
-        int y = this->lastRow + diff;
-        int lastState = Boardgame::EMPTY;
-        int counter = 0;
-
-        while ((x < Boardgame::COLUMNS) && (y >= 0)) {
-            if (this->boardgame[y][x] == Boardgame::EMPTY) {
-                counter = 0;
-            } else {
-                if (this->boardgame[y][x] == lastState) {
-                    counter++;
-                    if (counter == 4) return true;
-                } else {
-                    lastState = this->boardgame[y][x];
-                    counter = 1;
-                }
-            }
-
-            x++;
-            y--;
-        }
-    }
-
-    return false;
 }

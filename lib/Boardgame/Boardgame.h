@@ -3,6 +3,7 @@
 #define BOARDGAME_H
 
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -24,7 +25,6 @@ class Boardgame
         const static int PLAYER_1 = 1;
         const static int PLAYER_2 = 2;
         /* VARIABLE DECLARATION */
-        // vector<int> boardgame[Boardgame::ROWS][Boardgame::COLUMNS];
         vector<vector<int>> boardgame;
         int lastPlayer;
         int lastColumn;
@@ -33,12 +33,10 @@ class Boardgame
         /* PROTECTED METHOD */
         char humanToken(int value);
         bool canDropToken(int column);
-        bool areFourConnectedHorizontally();
-        bool areFourConnectedVertically();
-        bool areFourConnectedDiagonnaly();
+        bool areFourConnectedLoop(int x, int y, string direction);
+        bool areFourConnectedDiagonally(string direction);
+
         bool inArray(vector<int> needle, vector<vector<int>> haystack);
-        bool areFourConnectedDiagonallyTopLeft();
-        bool areFourConnectedDiagonallyTopRight();
     public:
         Boardgame();
         // TODO: Create destructor method
