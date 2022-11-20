@@ -19,6 +19,10 @@ Boardgame::Boardgame()
     }
 };
 
+Boardgame::~Boardgame() {
+    
+}
+
 /**
  * @brief Boardgame::showBoardgame
  */
@@ -100,6 +104,16 @@ bool Boardgame::dropToken(int column, int player)
     cout << "DEBUG: We should never get here!" << endl << __FILE__ << " : " << __LINE__ << endl;
     return false;
 };
+
+bool Boardgame::isGameOver()
+{
+    if (this->areFourConnected()) {
+        cout << "The game is over, player " << this->lastPlayer << " win!" << endl;
+        this->gameOver = true;
+    }
+
+    return this->gameOver;
+}
 
 /**
  * @brief Boardgame::areFourConnected

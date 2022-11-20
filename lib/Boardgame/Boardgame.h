@@ -22,8 +22,6 @@ class Boardgame
         const static int COLUMNS = 7;
         /* TOKENS INFO */
         const static int EMPTY = 0;
-        const static int PLAYER_1 = 1;
-        const static int PLAYER_2 = 2;
         /* VARIABLE DECLARATION */
         vector<vector<int>> boardgame;
         int lastPlayer;
@@ -33,16 +31,21 @@ class Boardgame
         /* PROTECTED METHOD */
         char humanToken(int value);
         bool canDropToken(int column);
+        bool areFourConnected();
         bool areFourConnectedLoop(int x, int y, string direction);
         bool areFourConnectedDiagonally(string direction);
 
         bool inArray(vector<int> needle, vector<vector<int>> haystack);
     public:
+        /* TOKENS INFO */
+        const static int PLAYER_1 = 1;
+        const static int PLAYER_2 = 2;
+        /* PUBLIC METHOD */
         Boardgame();
-        // TODO: Create destructor method
+        ~Boardgame();
         void showBoardgame();
         bool dropToken(int column, int player);
-        bool areFourConnected();
+        bool isGameOver();
 };
 
 #endif
