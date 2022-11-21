@@ -25,6 +25,7 @@ int main()
         }
 
         boardgame.showBoardgame();
+        cout << endl << "The stringify boardgame : " << endl << boardgame.getStringifyBoardgame() << endl;
         
     } while (!boardgame.isGameOver());
     

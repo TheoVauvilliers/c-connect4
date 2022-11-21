@@ -43,6 +43,7 @@ class Boardgame
         /* PUBLIC METHOD */
         Boardgame();
         ~Boardgame();
+        string getStringifyBoardgame();
         void showBoardgame();
         bool dropToken(int column, int player);
         bool isGameOver();

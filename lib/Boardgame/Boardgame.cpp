@@ -24,6 +24,24 @@ Boardgame::~Boardgame() {
 }
 
 /**
+ * @brief Boardgame::getStringifyBoardgame
+ * 
+ * @return string - get the boardgame as a string
+ */
+string Boardgame::getStringifyBoardgame()
+{
+    string stringifyBoardgame = "";
+
+    for (int x = 0; x < Boardgame::COLUMNS; x++) {
+        for (int y = Boardgame::ROWS - 1; y >= 0; y--) {
+            stringifyBoardgame += to_string(this->boardgame[y][x]);
+        }
+    }
+
+    return stringifyBoardgame;
+}
+
+/**
  * @brief Boardgame::showBoardgame
  */
 void Boardgame::showBoardgame()
